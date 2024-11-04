@@ -6,12 +6,14 @@ import {
   signInSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import OAuth from "../components/OAuth";
 
 function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const { loading, error } = useSelector((state) => state.user);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -61,6 +63,7 @@ function SignIn() {
           className="bg-sky-900 text-amber-50 p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Loading" : "Sign In"}
+          <OAuth />
         </button>
       </form>
       <div className="flex gap-2 mt-5">
@@ -69,7 +72,10 @@ function SignIn() {
           <span className="text-blue-600">Sign Up </span>
         </Link>
       </div>
-      <p className="text-red-600 mt-5"> {(error && error.message) || "Something went wrong!"}</p>
+      <p className="text-red-600 mt-5">
+        {" "}
+        {error ? error.message || "Something went wrong!" : " "}
+      </p>
     </div>
   );
 }
