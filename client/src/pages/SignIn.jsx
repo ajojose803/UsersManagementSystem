@@ -63,8 +63,8 @@ function SignIn() {
           className="bg-sky-900 text-amber-50 p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
         >
           {loading ? "Loading" : "Sign In"}
-          <OAuth />
         </button>
+          <OAuth />
       </form>
       <div className="flex gap-2 mt-5">
         <p>New here?</p>
