@@ -26,6 +26,7 @@ app.listen(3000, () => {
 });
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/admin")
 
 
 app.use((err, req, res, next) => {
