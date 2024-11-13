@@ -7,11 +7,15 @@ import PrivateRoute from "./components/PrivateRoute";
 import Profile from "./pages/Profile";
 import AdminLogin from "./pages/AdminLogin";
 import Header from "./components/Header";
+import PrivateAdminRoute from "./components/PrivateAdminRoute";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminAddUser from "./pages/AdminAddUser";
+import AdminUserEdit from "./pages/AdminUserEdit";
 
 export default function App() {
   return (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -20,10 +24,16 @@ export default function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
         </Route>
-        <Routes>
-          <Route path="/admin/login" element={<AdminLogin />} />
-        </Routes>
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route element={<PrivateAdminRoute />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/add-user" element={<AdminAddUser />} />
+          <Route path="/admin/edit/:id" element={<AdminUserEdit />} />
+        </Route>
       </Routes>
+        
+      
     </BrowserRouter>
   );
 }

@@ -1,34 +1,42 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { adminLogin, adminLoginFailure } from "../redux/admin/adminSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 
 function AdminLogin() {
   const [formData, setFormData] = useState({});
-  const { admin, isLogged } = useSelector((state) => state.admin);
-
+  const { isLogged } = useSelector((state) => state.admin);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/admin/dashboard");
+    }
+  }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      dispatch(adminLogin(data));
       if (data.success === false) {
-        dispatch(adminLoginFailure());
+        dispatch(adminLoginFailure(data));
         return;
       }
-      navigate('/admin/dashboard');
+      console.log("succeess");
+      navigate("/admin/dashboard");
     } catch (error) {
       dispatch(adminLoginFailure(error));
     }
@@ -52,11 +60,8 @@ function AdminLogin() {
           className="bg-slate-100 p-3 rounded-lg"
           onChange={handleChange}
         />
-        <button
-          disabled={loading}
-          className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80"
-        >
-          {loading ? "Loading..." : "Log In"}
+        <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
+          Log In
         </button>
       </form>
     </div>
